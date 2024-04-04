@@ -118,9 +118,9 @@ class FaceDetector:
             angle = self.getEulerAngle(R)
             video_head_angle = video_landmark.copy()
             video_head_angle.pop("frame_landmarks")
-            video_head_angle['pitch'] = angle[0]
-            video_head_angle['yaw'] = angle[1]
-            video_head_angle['roll'] = angle[2]
+            video_head_angle["pitch"] = angle[0]
+            video_head_angle["yaw"] = angle[1]
+            video_head_angle["roll"] = angle[2]
             video_head_angles.append(video_head_angle)
         
         return video_head_angles
