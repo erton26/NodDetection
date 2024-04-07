@@ -68,7 +68,8 @@ class NodDetector:
                     "end_nod_time": self.angle[end_nod_idx]["frame_num"] * 1000 / self.fps,
                     "nod_angle": self.angle[start_nod_check_idx]["pitch"] - self.angle[peak_nod_idx]["pitch"],
                     "long_start": long_start,
-                    "long_end" : long_end
+                    "long_end": long_end,
+                    "type": "nod"
                 }
 
                 timestamps.append(timestamp)
@@ -137,7 +138,8 @@ class NodDetector:
                     "end_nod_time": self.angle[end_nod_idx]["frame_num"] * 1000 / self.fps,
                     "nod_angle": self.angle[start_nod_check_idx]["pitch"] - self.angle[peak_nod_idx]["pitch"],
                     "long_start": long_start,
-                    "long_end" : long_end
+                    "long_end": long_end,
+                    "type": "jerk"
                 }
 
                 timestamps.append(timestamp)
