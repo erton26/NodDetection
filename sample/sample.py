@@ -31,10 +31,15 @@ def main():
     """
     video_angle_left_df = pd.read_csv("./output/left_angle.csv", index_col=0)
     video_angle_left = video_angle_left_df.to_dict("records")
+    video_angle_left_filled = faceDetector.fillBlankAngle(video_angle_left)
+    video_angle_left_filled_df = pd.DataFrame(video_angle_left_filled)
+    video_angle_left_filled_df.to_csv('./left_angle_filled.csv')
+
 
     video_angle_right_df = pd.read_csv("./output/right_angle.csv", index_col=0)
     video_angle_right = video_angle_right_df.to_dict("records")
-
+    
+    """
     nodDetectorLeft = NodDetector(video_angle_left, 25, 3.0, 0.5)
     nodTimestampsLeft = nodDetectorLeft.getNodTimestamp()
     video_nod_left_df = pd.DataFrame(nodTimestampsLeft)
@@ -49,8 +54,9 @@ def main():
     print(len(allTimestampsRight))
     #video_nod_right_df = pd.DataFrame(nodTimestampsRight)
     #video_nod_right_df.to_csv('./right_nod.csv')
-    #video_all_right_df = pd.DataFrame(allTimestampsRight)
-    #video_all_right_df.to_csv('./right_all.csv')
+    video_all_right_df = pd.DataFrame(allTimestampsRight)
+    video_all_right_df.to_csv('./right_all.csv')
+    """
 
 if __name__=="__main__":
     main()

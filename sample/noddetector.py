@@ -2,7 +2,7 @@ from typing import List, Dict
 
 
 class NodDetector:
-    def __init__(self, angle: List[Dict[str, any]], fps: int, threshold: float, multiplier: float):
+    def __init__(self, angle: List[Dict[str, any]], threshold: float, multiplier: float, fps: int = 25):
         self.angle = angle
         self.fps = fps
         self.threshold = threshold

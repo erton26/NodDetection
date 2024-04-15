@@ -3,14 +3,15 @@ import numpy as np
 import cv2
 import scipy
 from pathlib import Path
-from typing import Tuple, List, Dict
+from typing import List, Dict
 
 
 class FaceDetector:
-    def __init__(self, model_path: Path, data_path: Path, num_faces: int = 1):
+    def __init__(self, model_path: Path, data_path: Path, num_faces: int = 1, fps: int = 25):
         self.model_path = model_path
         self.data_path = data_path
         self.num_faces = num_faces
+        self.fps = fps
 
         video = cv2.VideoCapture(self.data_path)
         self.height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -124,3 +125,21 @@ class FaceDetector:
             video_head_angles.append(video_head_angle)
         
         return video_head_angles
+    
+    def fillBlankAngle(self, angles: List[Dict[str, any]]) -> List[Dict[str, any]]:
+        angles_result = []
+        for idx in range(1, len(angles)):
+            diff = angles[idx]["frame_num"] - angles[idx-1]["frame_num"]
+            angles_result.append(angles[idx-1])
+            if (diff > 1):
+                for frame_num in range(angles[idx-1]["frame_num"]+1, angles[idx]["frame_num"]):
+                    angle_fill = {
+                        "frame_num": frame_num,
+                        "frame_timestamp": frame_num * int(1000 / self.fps),
+                        "pitch": angles[idx-1]["pitch"] + (frame_num - angles[idx-1]["frame_num"]) * ((angles[idx]["pitch"] - angles[idx-1]["pitch"]) / (angles[idx]["frame_num"] - angles[idx-1]["frame_num"])),
+                        "yaw": angles[idx-1]["yaw"] + (frame_num - angles[idx-1]["frame_num"]) * ((angles[idx]["yaw"] - angles[idx-1]["yaw"]) / (angles[idx]["frame_num"] - angles[idx-1]["frame_num"])),
+                        "roll": angles[idx-1]["roll"] + (frame_num - angles[idx-1]["frame_num"]) * ((angles[idx]["roll"] - angles[idx-1]["roll"]) / (angles[idx]["frame_num"] - angles[idx-1]["frame_num"])),
+                    }
+                    angles_result.append(angle_fill)
+
+        return angles_result
